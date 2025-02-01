@@ -1,0 +1,338 @@
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f3f8fd; /* Soft light blue for a clean and inviting look */
+  color: #4a4a4a; /* Neutral gray for body text */
+}
+
+.landing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Heading Styles with Vibrant Colors */
+h1, h2, h3, h4 {
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #1e3a8a; /* Bold navy blue for a professional and captivating look */
+}
+
+h2 {
+  font-size: 2.5rem;
+  color: #2563eb; /* Bright blue for energy and trust */
+}
+
+h3 {
+  font-size: 2rem;
+  color: #10b981; /* Vibrant green for freshness and growth */
+}
+
+h4 {
+  font-size: 1.75rem;
+  color: #f59e0b; /* Warm orange for a welcoming and friendly feel */
+}
+
+/* Paragraph Styles */
+p {
+  font-size: 1rem;
+  color: #4a5568; /* Soft gray for readability */
+  line-height: 1.8;
+}
+
+/* Button Styles */
+button {
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-btn {
+  background-color: #2563eb; /* Bright blue for primary actions */
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+.login-btn:hover {
+  background-color: #1d4ed8; /* Slightly darker blue for hover effect */
+  transform: translateY(-2px);
+}
+
+.guest-btn {
+  background-color: #10b981; /* Refreshing green for guest actions */
+  color: white;
+}
+
+.guest-btn:hover {
+  background-color: #059669; /* Darker green for hover */
+  transform: translateY(-2px);
+}
+
+.signup-btn, .demo-btn {
+  background-color: #f59e0b; /* Vibrant orange for eye-catching CTAs */
+  color: white;
+  font-size: 1.2rem;
+  padding: 15px 30px;
+}
+
+.signup-btn:hover, .demo-btn:hover {
+  background-color: #d97706; /* Rich orange for hover effect */
+  transform: translateY(-2px);
+}
+
+/* Section Styles */
+.cta-section, .features-section, .use-cases-section, .demo-section {
+  margin: 50px 0;
+  padding: 20px;
+}
+
+/* Feature and Use Case Item Styles */
+.feature-list, .use-case-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-item, .use-case-item {
+  flex: 1 1 calc(25% - 2rem);
+  max-width: 300px;
+  padding: 25px;
+  background: linear-gradient(145deg, #ffffff, #f3f8fd); /* Subtle gradient for a modern look */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-item:hover, .use-case-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-item i {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #2563eb; /* Blue for cohesive branding */
+}
+
+/* Use Case Specific Styles */
+.use-cases-section {
+  background-color: #e6f4ff; /* Light blue to create section contrast */
+  padding: 4rem 2rem;
+}
+
+.use-case-item h4 {
+  color: #1e3a8a; /* Bold navy blue for headings */
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.use-case-item p {
+  color: #475569; /* Muted gray-blue for readability */
+}
+
+/* General Styling */
+
+.description {
+  margin-bottom: 2rem;
+}
+
+/* Grid Layout */
+.icon-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .icon-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .icon-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Icon Card Styling */
+.icon-card {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.icon-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 45px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+/* Icon Background Colors */
+.bg-blue {
+  background-color: #3b82f6;
+}
+
+.bg-green {
+  background-color: #10b981;
+}
+
+.bg-purple {
+  background-color: #8b5cf6;
+}
+
+.bg-orange {
+  background-color: #f97316;
+}
+
+.bg-yellow {
+  background-color: #f59e0b;
+}
+
+.bg-teal {
+  background-color: #14b8a6;
+}
+
+/* Icon Card Text */
+.icon-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.icon-description {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-top: 0.25rem;
+  line-height: 1.4;
+}
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .feature-item, .use-case-item {
+    flex: 1 1 calc(50% - 2rem);
+  }
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.75rem;
+  }
+
+  .feature-item, .use-case-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .use-cases-section h3 {
+    font-size: 2rem;
+  }
+
+  .use-case-item h4 {
+    font-size: 1.5rem;
+  }
+
+  .use-case-item p {
+    font-size: 1rem;
+  }
+}
+
+
+
+.demo-section {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  margin: 40px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.demo-section h3 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.demo-section img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.demo-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.demo-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.demo-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .demo-section {
+    padding: 30px 15px;
+  }
+
+  .demo-section h3 {
+    font-size: 24px;
+  }
+
+  .demo-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+

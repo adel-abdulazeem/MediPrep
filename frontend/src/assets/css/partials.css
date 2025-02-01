@@ -1,0 +1,88 @@
+/* Footer Styles */
+.footer {
+    min-width: 730px;
+    background-color: #000000; /* Black background for footer */
+    color: #ffffff; /* White text for contrast */
+    padding: 20px 10px;
+    height: 12vh;
+    text-align: center;
+    border-top: 5px solid #ffeb3b; /* Intense yellow accent */
+  }
+  .main-header {
+    min-width: 750px;
+    background-color: #000000; /* Black background for header */
+    color: #ffffff; /* White text for contrast */
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .footer p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  
+  .footer-links {
+    margin-top: 10px;
+  }
+  
+  .footer-links a {
+    margin: 0 10px;
+    color: #ffffff; /* White links */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-links a:hover {
+    color: #ffeb3b; /* Intense yellow hover */
+  }
+  
+  /* Header Styles */
+
+  
+  /* Logo styling */
+.logo a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .logo a:hover {
+    background-color: #555;
+    color: #ffcc00;
+    border-radius: 4px;
+  }
+  /* Navigation styling */
+  .main-nav ul {
+    display: flex;
+    gap: 20px;
+  }
+  .main-nav a {
+    color: #fff;
+    font-size: 16px;
+    padding: 5px 10px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .main-nav a:hover {
+    background-color: #555;
+    color: #ffcc00;
+    border-radius: 4px;
+  }
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .main-header {
+      align-items: center;
+    }
+  
+    .main-nav ul {
+      gap: 10px;
+      margin-top: 10px;
+    }
+  
+    .footer-links {
+      flex-direction: column;
+    }
+  }
+  

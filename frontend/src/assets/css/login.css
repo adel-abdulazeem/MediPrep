@@ -1,0 +1,116 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  /* Form Description */
+  .form-description {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-description h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+  }
+  
+  /* Alert Messages */
+  .alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+  
+  /* Signup Container */
+  .signup-container {
+    max-width: 400px;
+    margin: 40px auto;
+    height: 52vh;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /
+  
+  /* Button Styles */
+  button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+  }
+  
+  /* Signup Link */
+  .signup-container p {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+  }
+  
+  .signup-container a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .signup-container a:hover {
+    text-decoration: underline;
+  }
+  /* Description Styling */
+.auth-description {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #666; /* Soft gray for readability */
+  margin-bottom: 20px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .signup-container {
+      padding: 15px;
+    }
+  
+    .form-description h2 {
+      font-size: 1.75rem;
+    }
+  
+    .form-group input {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  
+    button {
+      padding: 8px;
+      font-size: 0.9rem;
+    }
+  }

@@ -17,12 +17,12 @@ const medicationSchema = new Schema({
   compatibleSolutions: [{
     type: String,
     required: true,
-    enum: ['0.9% NaCl', 'D5W', 'Lactated Ringer\'s', 'Sterile Water', 'Other']
+    enum: ['0.9% NaCl', 'D5W', 'Lactated Ringer\'s', 'Sterile Water']
   }],
   timeOfStability: [{
     type: String,
     required: true,
-    example: '24 hours refrigerated'
+    example: '24 hours refrigerated after reconstituted by 0.9% Nacl'
   }],
   methodOfPreparation: {
     type: String,
@@ -32,13 +32,8 @@ const medicationSchema = new Schema({
   methodOfAdministration: [{
     type: String,
     required: true,
-    enum: ['IV', 'IM', 'Oral', 'Subcutaneous', 'Topical', 'Other']
+    enum: ['IV', 'IM', 'Oral', 'Subcutaneous', 'Topical']
   }],
-  status: {
-    type: String,
-    enum: ['draft', 'pending', 'approved', 'archived'],
-    default: 'draft'
-  },
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
