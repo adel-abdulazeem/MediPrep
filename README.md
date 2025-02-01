@@ -2,7 +2,7 @@
 
 ## **Overview**
 
-**MediGuide** a comprehensive application that provides healthcare professionals with critical information on medication stability post-reconstitution, preparation guidelines, administration routes, and alerting notes. The application also includes a system for the Quality Control (QC) department to update and maintain data, ensuring that nursing staff have access to the most current information.
+A comprehensive application that provides healthcare professionals with critical information on medication stability post-reconstitution, preparation guidelines, administration routes, and alerting notes. The application also includes a system for the Quality Control (QC) department to update and maintain data, ensuring that nursing staff have access to the most current information.
 
 ## Key Benefits of MediPrep
 - **Improve Patient Safety**: Enhance medication accuracy, leading to better patient outcomes and reduced complications.
