@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
-
-const MedicationForm = ({ onSubmit, userId }) => {
+import React, { useState, useEffect } from 'react';
+import SearchMed from './SearchMed'
+const MedicationForm = () => {
 
   const [formData, setFormData] = useState({
     brandName: '',
     genericName: '',
     compatibleSolutions: [],
     methodOfAdministration: [],
-    timeOfStability: [''],
+    timeOfStability: [],
     methodOfPreparation: '',
     notes: ''
   });
-
-  const [query, setQuery] = useState("");
-    // Handle search input change
-    const handleSearch = (e) => {
-      setQuery(e.target.value);
-    };
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
 
   const handleArrayChange = (field, index, value) => {
@@ -34,25 +30,65 @@ const MedicationForm = ({ onSubmit, userId }) => {
     setFormData({ ...formData, [field]: filtered });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit({
-      ...formData,
-      createdBy: userId // Assuming userId is provided via props
-    });
+    if(!formData.brandName ||
+      !formData.genericName ||
+      !formData.compatibleSolutions ||
+      !formData.methodOfAdministration ||
+      !formData.methodOfPreparation ){
+      alert("Please fill in all fields");
+      setIsLoading(false); 
+      return ;
+    }
+    setIsLoading(true); 
+    try{
+      const formDataToSend = {
+      brandName: formData.brandName.trim(),
+      genericName: formData.genericName.trim(),
+      compatibleSolutions: formData.compatibleSolutions,
+      methodOfAdministration: formData.methodOfAdministration,
+      timeOfStability: formData.timeOfStability.filter(entry => entry.trim() !== ''),
+      methodOfPreparation: formData.methodOfPreparation.trim(),
+      notes: formData.notes.trim()
+      }
+      
+      const res = await fetch('http://localhost:3000/medication/create/',{
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formDataToSend)
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! Status: ${res.status}`);
+      };
+      const data = await res.json();
+      console.log(data);
+
+      setFormData({
+        brandName: "",
+        genericName: "",
+        compatibleSolutions: [],
+        methodOfAdministration: [],
+        timeOfStability: [''],
+        methodOfPreparation: '',
+        notes: '',
+      }); 
+    } catch(error){
+      console.error("Error:", error);
+      setError("Failed to update the subscriber. Please try again.");
+    } finally {
+      setIsLoading(false);
+      setError(null)
+    }
   };
+
 
   return (
     <>
-      {/* Search Subscribers */}
-      <div className="search-container">
-        <input
-        type="text"
-        placeholder="Search by ID or name..."
-        value={query}
-        onChange={handleSearch}
-       />
-      </div>
+    <SearchMed/>
     <h1>Medication Form</h1>
     <form onSubmit={handleSubmit} className="medication-form">
       {/* Brand Name */}
@@ -176,7 +212,9 @@ const MedicationForm = ({ onSubmit, userId }) => {
         />
       </div>
 
-      <button type="submit">Submit Medication</button>
+      <button type="submit">
+      {isLoading ?'Submit Medication' : 'Submitting...'}
+      </button>
     </form>
   </>
   );

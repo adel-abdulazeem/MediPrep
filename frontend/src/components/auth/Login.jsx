@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
+
 const Login = () => {
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +43,7 @@ const Login = () => {
     }
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5174/login", {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -45,6 +52,7 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json()
+      console.log(data)
       if (!response.ok) {
         // Handle validation or authentication errors
         if (data.errors) {
@@ -54,6 +62,17 @@ const Login = () => {
         }
         return;
       }
+
+      // Store user role and authentication status
+      login(data.role);
+      
+      // Redirect based on role
+      // if (data.role === 'admin') {
+      //   navigate("/admin-dashboard");
+      // } else {
+      //   navigate("/mediForm");
+      // }
+      navigate("/mediForm")
       alert("Login successful!");
     } catch (err) {
       if (err.name === "TypeError" && err.msg === "Failed to fetch") {
@@ -66,7 +85,6 @@ const Login = () => {
     }
   };
 
-
   return (
     <>
       <div className="form-description">
@@ -75,7 +93,7 @@ const Login = () => {
         Only users authenticated by the admin can log in. If you don't have     credentials, please contact the administrator.
       </p>
       </div>
-      <div className="signup-container">
+      <div className="admin-user-form-container">
       <form onSubmit={handleSubmit}>
           <div className="form-group">
              <label htmlFor="email">
@@ -109,12 +127,12 @@ const Login = () => {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-          <p className="alert alert-danger">
+          {/* <p className="alert alert-danger">
           Don't have an account? Only an admin can sign up.{" "}
           <a href="/signup" >
             SignUp
           </a>
-            </p>
+            </p> */}
         </form>
       </div>
     </>

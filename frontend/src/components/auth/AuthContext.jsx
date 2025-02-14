@@ -2,22 +2,40 @@ import React, { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authState, setAuthState] = useState({
+    isAuthenticated: false,
+    userRole: null,
+  });
+  useEffect(() => {
+    const storedAuth = localStorage.getItem("isAuthenticated");
+    const storedRole = localStorage.getItem("userRole");
+    if (storedAuth === "true" && storedRole) {
+      setAuthState({
+        isAuthenticated: true,
+        userRole: storedRole,
+      });
+    }
+  }, []);
 
-  const login = () => {
+  const login = (role) => {
     localStorage.setItem("isAuthenticated", "true");
-    setIsAuthenticated(true);
+    localStorage.setItem("userRole", role);
+    setAuthState({
+      isAuthenticated: true,
+      userRole: role,
+    });
   };
 
   const logout = () => {
-    localStorage.removeItem("isAuthenticated"); // Remove authentication status
-    setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userRole");
+    setAuthState({
+      isAuthenticated: false,
+      userRole: null,
+    });
   };
     // Value to be provided to consuming components
-    const value = {
-      isAuthenticated,
-      login,
-      logout,
+    const value = { ...authState, login, logout
     };
 
   return (

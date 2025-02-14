@@ -42,7 +42,9 @@ function App() {
                 path="/signup"
                 element={
                   <ProtectedRoute>
+                    <Layout>
                     <Signup />
+                    </Layout>
                   </ProtectedRoute>
                 }/>
 

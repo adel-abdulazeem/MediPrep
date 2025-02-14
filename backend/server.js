@@ -6,9 +6,30 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const flash = require("express-flash");
 const logger = require("morgan");
+const cors = require("cors")
+
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const medicationRoutes = require("./routes/medications");
+
+
+
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5173/login', 'http://localhost:5173/home']; 
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allow these HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions))
+
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });

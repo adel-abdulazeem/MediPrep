@@ -10,7 +10,7 @@ const Logout = () => {
   const handleLogout = async () => {
 
     try {
-      const response = await fetch("/api/logout", {
+      const response = await fetch("http://localhost:3000/logout", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -18,6 +18,9 @@ const Logout = () => {
         credentials:"include",
       });
       if (response.ok) {
+        localStorage.removeItem("isAuthenticated");
+        localStorage.removeItem("userRole");
+
         window.location.href = '/'
       }
     } catch(error){

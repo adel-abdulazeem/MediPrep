@@ -34,15 +34,23 @@ const medicationSchema = new Schema({
     required: true,
     enum: ['IV', 'IM', 'Oral', 'Subcutaneous', 'Topical']
   }],
-  createdBy: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
   notes: {
     type: String,
     trim: true
-  }
+  },
+  // createdBy: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   required: true
+  // },
+  // isApproved: {
+  //   type: Boolean,
+  //   default: false 
+  // },
+  // openForUpdate: {
+  //   type: Boolean,
+  //   default: false
+  // }
 },
 {
   timestamps: true, // Automatically adds createdAt and updatedAt fields

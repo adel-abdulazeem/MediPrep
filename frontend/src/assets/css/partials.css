@@ -58,6 +58,7 @@
   .main-nav ul {
     display: flex;
     gap: 20px;
+    list-style: none;
   }
   .main-nav a {
     color: #fff;

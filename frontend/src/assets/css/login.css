@@ -34,18 +34,103 @@ body {
     border: 1px solid #f5c6cb;
   }
   
-  /* Signup Container */
-  .signup-container {
+  .admin-user-form-container {
     max-width: 400px;
-    margin: 40px auto;
-    height: 52vh;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
   
-  /
+  .admin-user-form h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #34495e;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 95%;
+    padding: 0.75rem;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+  
+  .role-select {
+    background-color: white;
+  }
+  
+  .role-help-text {
+    font-size: 0.875rem;
+    color: #7f8c8d;
+    margin-top: 0.5rem;
+  }
+  
+  .password-input {
+    position: relative;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    width: 25px;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.2rem;
+  }
+  
+  .error {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+  }
+  
+  .form-actions {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #219a52;
+  }
+  
   
   /* Button Styles */
   button {
@@ -69,21 +154,7 @@ body {
     cursor: not-allowed;
   }
   
-  /* Signup Link */
-  .signup-container p {
-    text-align: center;
-    margin-top: 20px;
-    color: #666;
-  }
   
-  .signup-container a {
-    color: #3498db;
-    text-decoration: none;
-  }
-  
-  .signup-container a:hover {
-    text-decoration: underline;
-  }
   /* Description Styling */
 .auth-description {
   font-size: 1.2rem;
