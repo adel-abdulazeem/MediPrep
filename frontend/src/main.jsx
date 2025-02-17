@@ -3,6 +3,8 @@ import './assets/css/index.css'
 import './assets/css/landingPage.css'
 import './assets/css/login.css'
 import './assets/css/partials.css'
+import './assets/css/mediTable.css'
+
 
 import App from './App.jsx'
 

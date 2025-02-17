@@ -11,9 +11,12 @@ const MedicationForm = () => {
     methodOfPreparation: '',
     notes: ''
   });
+  const [medications, setMedications] = useState([])
+  const [currentMedId, setCurrentMedId] = useState(null);
+  const [refreshData, setRefreshData] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
 
   const handleArrayChange = (field, index, value) => {
     const newArray = [...formData[field]];
@@ -41,7 +44,10 @@ const MedicationForm = () => {
       setIsLoading(false); 
       return ;
     }
-    setIsLoading(true); 
+    if (isEditMode) {
+      await handleUpdate(); // Call handleUpdate if in edit mode
+      return; // Exit the function to prevent further execution
+    }
     try{
       const formDataToSend = {
       brandName: formData.brandName.trim(),
@@ -52,8 +58,7 @@ const MedicationForm = () => {
       methodOfPreparation: formData.methodOfPreparation.trim(),
       notes: formData.notes.trim()
       }
-      
-      const res = await fetch('http://localhost:3000/medication/create/',{
+      const res = await fetch('http://localhost:3000/medication/create',{
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -82,15 +87,116 @@ const MedicationForm = () => {
     } finally {
       setIsLoading(false);
       setError(null)
+      setRefreshData(prev => !prev)  
     }
   };
 
+  //GET req
+  useEffect(() => {
+    const fetchSubscribers = () => {
+      fetch("http://localhost:3000/medication", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }) 
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then(data => {
+            setMedications(data)
+        })
+        .catch((error) => {
+          console.error("Error fetching subscribers:", error);
+        });
+    };
+    fetchSubscribers();
+  }, [refreshData]);
 
+//PUT req
+const handleEdit = (id) => {
+  const medToEdit = medications.find((med) => med._id === id);
+  if (medToEdit) {
+    setFormData({
+      brandName: medToEdit.brandName,
+      genericName: medToEdit.genericName,
+      compatibleSolutions: medToEdit.compatibleSolutions,
+      methodOfAdministration: medToEdit.methodOfAdministration,
+      timeOfStability: medToEdit.timeOfStability,
+      methodOfPreparation: medToEdit.methodOfPreparation,
+      notes: medToEdit.notes,
+    });
+  }
+  setIsEditMode(true); 
+  setCurrentMedId(id);
+};
+const handleUpdate = async() =>{
+  // if (!currentMedId) return; 
+  // setIsLoading(true);
+  // setError(null);
+  try {
+    const formDataToSend = {
+      brandName: formData.brandName.trim(),
+      genericName: formData.genericName.trim(),
+      compatibleSolutions: formData.compatibleSolutions,
+      methodOfAdministration: formData.methodOfAdministration,
+      timeOfStability: formData.timeOfStability.filter(entry => entry.trim() !== ''),
+      methodOfPreparation: formData.methodOfPreparation.trim(),
+      notes: formData.notes.trim()
+    }
+    const response = await fetch(`http://localhost:3000/medication/update/${currentMedId}`, {
+      method: "PUT",
+      credentials: "include",
+      body:  JSON.stringify(formDataToSend),
+    });
+    if (!response.ok) {
+      alert("error with update request");
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    
+    const updatedMed = await response.json();
+    setMedications(medications.map(med => med._id === currentMedId ? { ...sub, ...updatedMed } : med));
+
+    setFormData({
+      brandName: "",
+      genericName: "",
+      compatibleSolutions: [],
+      methodOfAdministration: [],
+      timeOfStability: [''],
+      methodOfPreparation: '',
+      notes: '',
+    }); 
+  } catch(error){
+    console.error("Error:", error);
+    setError("Failed to update the subscriber. Please try again.");
+  } finally {
+    setIsLoading(false);
+    setError(null)
+    setRefreshData(prev => !prev)  
+  }
+}
+
+  const handleCancelEdit = () => {
+    setIsEditMode(false); 
+    setCurrentMedId(null); 
+    setFormData({
+      brandName: "",
+      genericName: "",
+      compatibleSolutions: [],
+      methodOfAdministration: [],
+      timeOfStability: [''],
+      methodOfPreparation: '',
+      notes: '',
+    }); 
+  };
   return (
     <>
     <SearchMed/>
     <h1>Medication Form</h1>
-    <form onSubmit={handleSubmit} className="medication-form">
+    <form className="medication-form">
       {/* Brand Name */}
       <div className='medi-name'>
       <div className="form-group">
@@ -211,11 +317,58 @@ const MedicationForm = () => {
           onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
         />
       </div>
-
-      <button type="submit">
-      {isLoading ?'Submit Medication' : 'Submitting...'}
-      </button>
+          <div className="form-btn">
+          <button type='submit'
+          onClick={handleSubmit} 
+           >
+            {isEditMode ?"Update Medication" : "Add Medication"}
+          </button>
+            {isEditMode && (
+          <button type="button" onClick={handleCancelEdit}>
+              Cancel Edit
+          </button>
+            )}
+          </div>
     </form>
+
+    <div className="table-container">
+    <table>
+    <thead>
+      <tr>
+        <th>Brand Name</th>
+        <th>Generic Name </th>
+        <th>Status</th>
+
+        {localStorage.getItem('userRole') == 'admin' && <th>Actions</th>}
+      </tr>
+    </thead>
+    <tbody>
+      {medications.map(med =>(
+        <tr key={med._id}>
+          <td>
+            {med.brandName}
+          </td>
+          <td>
+            {med.genericName}
+          </td>
+          <td>
+            <span>
+            </span>
+          </td>
+         <td>
+          <button
+            onClick={() => handleEdit(med._id)}
+           className="edit-button"
+          >
+          Edit
+        </button>            
+      </td>
+          
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
   </>
   );
 };

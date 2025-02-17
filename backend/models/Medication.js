@@ -38,22 +38,19 @@ const medicationSchema = new Schema({
     type: String,
     trim: true
   },
+  status: {
+    type: String,
+    enum: ['approved', 'openForUpdate'],
+    default: 'openForUpdate'
+  },
   // createdBy: {
   //   type: Schema.Types.ObjectId,
   //   ref: 'User',
   //   required: true
   // },
-  // isApproved: {
-  //   type: Boolean,
-  //   default: false 
-  // },
-  // openForUpdate: {
-  //   type: Boolean,
-  //   default: false
-  // }
 },
 {
-  timestamps: true, // Automatically adds createdAt and updatedAt fields
+  timestamps: true, 
 }
 );
 

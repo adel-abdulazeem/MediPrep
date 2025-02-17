@@ -14,7 +14,7 @@ const medicationRoutes = require("./routes/medications");
 
 
 
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5173/login', 'http://localhost:5173/home']; 
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5173/login', 'http://localhost:5173/mediForm']; 
 
 const corsOptions = {
   origin: function (origin, callback) {
