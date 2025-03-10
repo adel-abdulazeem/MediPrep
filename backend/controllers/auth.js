@@ -48,7 +48,6 @@ exports.postLogin = async (req, res, next) => {
         }
         req.flash("success", { msg: "Success! You are logged in." });
         const user = await User.findOne({ email: req.body.email });
-
         res.json({
           success: true,
           user: {

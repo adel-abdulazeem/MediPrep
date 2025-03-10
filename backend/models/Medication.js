@@ -22,7 +22,7 @@ const medicationSchema = new Schema({
   timeOfStability: [{
     type: String,
     required: true,
-    example: '24 hours refrigerated after reconstituted by 0.9% Nacl'
+    trim: true
   }],
   methodOfPreparation: {
     type: String,
@@ -38,16 +38,15 @@ const medicationSchema = new Schema({
     type: String,
     trim: true
   },
-  status: {
-    type: String,
-    enum: ['approved', 'openForUpdate'],
-    default: 'openForUpdate'
+  approved: {
+    type: Boolean,
+    default: false
   },
-  // createdBy: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'User',
-  //   required: true
-  // },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
 },
 {
   timestamps: true, 

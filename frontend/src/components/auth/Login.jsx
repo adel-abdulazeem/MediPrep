@@ -52,7 +52,6 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json()
-      console.log(data)
       if (!response.ok) {
         // Handle validation or authentication errors
         if (data.errors) {
@@ -62,18 +61,10 @@ const Login = () => {
         }
         return;
       }
-
       // Store user role and authentication status
-      login(data.role);
-      
-      // Redirect based on role
-      // if (data.role === 'admin') {
-      //   navigate("/admin-dashboard");
-      // } else {
-      //   navigate("/mediForm");
-      // }
-      navigate("/mediForm")
+      login(data.user.role, data.user.id);
       alert("Login successful!");
+      navigate("/dashboard")
     } catch (err) {
       if (err.name === "TypeError" && err.msg === "Failed to fetch") {
         setError("Network error. Please check your internet connection.");
@@ -82,6 +73,7 @@ const Login = () => {
       }
     } finally {
       setLoading(false);
+
     }
   };
 

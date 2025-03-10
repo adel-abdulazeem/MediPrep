@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import SearchMed from './medication/SearchMed'
+import DashBoard from "./adminActions/Dashboard";
 
 export default function Home() {
-  const navigate = useNavigate()
   return (
-    <div className="landing-container">
-        <h1>MediPrep Guide</h1>
-        <button onClick={() => navigate('/login')}>Login</button>
+    <div>
+        <DashBoard/>
     </div>
   );
 }

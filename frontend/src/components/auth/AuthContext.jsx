@@ -5,24 +5,31 @@ export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     isAuthenticated: false,
     userRole: null,
+    userId: null
   });
   useEffect(() => {
     const storedAuth = localStorage.getItem("isAuthenticated");
     const storedRole = localStorage.getItem("userRole");
-    if (storedAuth === "true" && storedRole) {
+    const storedUserId = localStorage.getItem("userId");
+
+    if (storedAuth === "true") {
       setAuthState({
         isAuthenticated: true,
         userRole: storedRole,
+        userId: storedUserId
       });
     }
   }, []);
 
-  const login = (role) => {
+  const login = (role, userId) => {
     localStorage.setItem("isAuthenticated", "true");
     localStorage.setItem("userRole", role);
+    localStorage.setItem("userId", userId);
+
     setAuthState({
       isAuthenticated: true,
       userRole: role,
+      userId: userId,
     });
   };
 
@@ -32,11 +39,11 @@ export const AuthProvider = ({ children }) => {
     setAuthState({
       isAuthenticated: false,
       userRole: null,
+      userId: null,
     });
   };
     // Value to be provided to consuming components
-    const value = { ...authState, login, logout
-    };
+    const value = { authState, login, logout};
 
   return (
     <AuthContext.Provider value={value}>

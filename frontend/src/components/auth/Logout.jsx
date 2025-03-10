@@ -20,7 +20,7 @@ const Logout = () => {
       if (response.ok) {
         localStorage.removeItem("isAuthenticated");
         localStorage.removeItem("userRole");
-
+        localStorage.removeItem("userId");
         window.location.href = '/'
       }
     } catch(error){

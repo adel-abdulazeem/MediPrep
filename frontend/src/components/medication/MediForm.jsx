@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import SearchMed from './SearchMed'
+
 const MedicationForm = () => {
 
+  const userId = localStorage.getItem("userId");
   const [formData, setFormData] = useState({
     brandName: '',
     genericName: '',
@@ -18,6 +19,7 @@ const MedicationForm = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log(medications)
   const handleArrayChange = (field, index, value) => {
     const newArray = [...formData[field]];
     newArray[index] = value;
@@ -27,12 +29,10 @@ const MedicationForm = () => {
   const addArrayField = (field) => {
     setFormData({ ...formData, [field]: [...formData[field], ''] });
   };
-
   const removeArrayField = (field, index) => {
     const filtered = formData[field].filter((_, i) => i !== index);
     setFormData({ ...formData, [field]: filtered });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(!formData.brandName ||
@@ -50,13 +50,14 @@ const MedicationForm = () => {
     }
     try{
       const formDataToSend = {
-      brandName: formData.brandName.trim(),
-      genericName: formData.genericName.trim(),
+      brandName: formData.brandName.toLowerCase().trim(),
+      genericName: formData.genericName.toLowerCase().trim(),
       compatibleSolutions: formData.compatibleSolutions,
       methodOfAdministration: formData.methodOfAdministration,
       timeOfStability: formData.timeOfStability.filter(entry => entry.trim() !== ''),
       methodOfPreparation: formData.methodOfPreparation.trim(),
-      notes: formData.notes.trim()
+      notes: formData.notes.trim(),
+      createdBy: userId
       }
       const res = await fetch('http://localhost:3000/medication/create',{
         method: "POST",
@@ -70,8 +71,6 @@ const MedicationForm = () => {
         throw new Error(`HTTP error! Status: ${res.status}`);
       };
       const data = await res.json();
-      console.log(data);
-
       setFormData({
         brandName: "",
         genericName: "",
@@ -93,8 +92,9 @@ const MedicationForm = () => {
 
   //GET req
   useEffect(() => {
-    const fetchSubscribers = () => {
-      fetch("http://localhost:3000/medication", {
+    const fetchMed = () => {
+      console.log(userId)
+      fetch(`http://localhost:3000/medication/${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -108,12 +108,13 @@ const MedicationForm = () => {
         })
         .then(data => {
             setMedications(data)
+            console.log(data)
         })
         .catch((error) => {
           console.error("Error fetching subscribers:", error);
         });
     };
-    fetchSubscribers();
+    fetchMed();
   }, [refreshData]);
 
 //PUT req
@@ -134,9 +135,7 @@ const handleEdit = (id) => {
   setCurrentMedId(id);
 };
 const handleUpdate = async() =>{
-  // if (!currentMedId) return; 
-  // setIsLoading(true);
-  // setError(null);
+  if (!currentMedId) return; 
   try {
     console.log(formData.brandName)
     const formDataToSend = {
@@ -160,7 +159,7 @@ const handleUpdate = async() =>{
       alert("error with update request");
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
-    
+  
     const updatedMed = await response.json();
     setMedications(medications.map(med => med._id === currentMedId ? { ...med, ...updatedMed } : med));
 
@@ -182,7 +181,6 @@ const handleUpdate = async() =>{
     setRefreshData(prev => !prev)  
   }
 }
-
   const handleCancelEdit = () => {
     setIsEditMode(false); 
     setCurrentMedId(null); 
@@ -198,8 +196,39 @@ const handleUpdate = async() =>{
   };
   return (
     <>
-    <SearchMed/>
-    <h1>Medication Form</h1>
+      <div className="table-container">
+        <table>
+        <thead>
+          <tr>
+            <th>Brand Name</th>
+            <th>Generic Name </th>
+             <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {medications.map(med =>(
+              med.approved? '' :
+              <tr key={med._id}>
+              <td>
+                {med.brandName}
+              </td>
+              <td>
+                {med.genericName}
+              </td>
+             <td>
+             <button
+                onClick={() => handleEdit(med._id)}
+               className="edit-button"
+              >
+              Edit
+            </button>           
+          </td>
+        </tr>
+        ))}
+        </tbody>
+      </table>
+    </div>
+    {/* <h1>Medication Form</h1> */}
     <form  onSubmit={handleSubmit} className="medication-form">
       {/* Brand Name */}
       <div className='medi-name'>
@@ -213,7 +242,6 @@ const handleUpdate = async() =>{
           required
         />
       </div>
-
       {/* Generic Name */}
       <div className="form-group">
         <label htmlFor='genericName'>Generic Name *</label>
@@ -226,7 +254,6 @@ const handleUpdate = async() =>{
         />
       </div>
       </div>
-
         {/* Compatible Solutions */}
         <div className="form-group">
           <label>Compatible Solutions *</label>
@@ -253,7 +280,6 @@ const handleUpdate = async() =>{
             ))}
           </div>
         </div>
-
         {/* Method of Administration */}
         <div className="form-group">
           <label>Method of Administration *</label>
@@ -302,7 +328,6 @@ const handleUpdate = async() =>{
           Add Another Time Entry
         </button>
       </div>
-
       {/* Method of Preparation */}
       <div className="form-group">
         <label>Method of Preparation *</label>
@@ -312,7 +337,6 @@ const handleUpdate = async() =>{
           required
         />
       </div>
-
       {/* Notes */}
       <div className="form-group">
         <label>Notes</label>
@@ -334,47 +358,6 @@ const handleUpdate = async() =>{
             )}
           </div>
     </form>
-
-    <div className="table-container">
-    <table>
-    <thead>
-      <tr>
-        <th>Brand Name</th>
-        <th>Generic Name </th>
-         <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {medications.map(med =>( 
-        <tr key={med._id}>
-          <td>
-            {med.brandName}
-          </td>
-          <td>
-            {med.genericName}
-          </td>
-          {localStorage.getItem('userRole') == 'admin' &&<td>
-                <button>
-                  {med.status === 'approved'? 
-                    "Update" : "Approve"
-                  }
-                </button>
-            </td>
-           }
-         <td>
-         {localStorage.getItem('userRole') == 'user' &&<button
-            onClick={() => handleEdit(med._id)}
-           className="edit-button"
-          >
-          Edit
-        </button>}            
-      </td>
-          
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
   </>
   );
 };
