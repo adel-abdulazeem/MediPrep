@@ -138,6 +138,7 @@ const handleUpdate = async() =>{
   // setIsLoading(true);
   // setError(null);
   try {
+    console.log(formData.brandName)
     const formDataToSend = {
       brandName: formData.brandName.trim(),
       genericName: formData.genericName.trim(),
@@ -149,7 +150,10 @@ const handleUpdate = async() =>{
     }
     const response = await fetch(`http://localhost:3000/medication/update/${currentMedId}`, {
       method: "PUT",
-      credentials: "include",
+      headers: { // Add headers here
+        'Content-Type': 'application/json',
+      },
+      // credentials: "include",
       body:  JSON.stringify(formDataToSend),
     });
     if (!response.ok) {
@@ -158,7 +162,7 @@ const handleUpdate = async() =>{
     }
     
     const updatedMed = await response.json();
-    setMedications(medications.map(med => med._id === currentMedId ? { ...sub, ...updatedMed } : med));
+    setMedications(medications.map(med => med._id === currentMedId ? { ...med, ...updatedMed } : med));
 
     setFormData({
       brandName: "",
@@ -196,7 +200,7 @@ const handleUpdate = async() =>{
     <>
     <SearchMed/>
     <h1>Medication Form</h1>
-    <form className="medication-form">
+    <form  onSubmit={handleSubmit} className="medication-form">
       {/* Brand Name */}
       <div className='medi-name'>
       <div className="form-group">
@@ -337,13 +341,11 @@ const handleUpdate = async() =>{
       <tr>
         <th>Brand Name</th>
         <th>Generic Name </th>
-        <th>Status</th>
-
-        {localStorage.getItem('userRole') == 'admin' && <th>Actions</th>}
+         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      {medications.map(med =>(
+      {medications.map(med =>( 
         <tr key={med._id}>
           <td>
             {med.brandName}
@@ -351,17 +353,21 @@ const handleUpdate = async() =>{
           <td>
             {med.genericName}
           </td>
-          <td>
-            <span>
-            </span>
-          </td>
+          {localStorage.getItem('userRole') == 'admin' &&<td>
+                <button>
+                  {med.status === 'approved'? 
+                    "Update" : "Approve"
+                  }
+                </button>
+            </td>
+           }
          <td>
-          <button
+         {localStorage.getItem('userRole') == 'user' &&<button
             onClick={() => handleEdit(med._id)}
            className="edit-button"
           >
           Edit
-        </button>            
+        </button>}            
       </td>
           
         </tr>
